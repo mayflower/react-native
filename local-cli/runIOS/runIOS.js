@@ -35,10 +35,13 @@ function _runIOS(argv, config, resolve, reject) {
     default: 'iPhone 6',
   }], argv);
 
-  process.chdir('ios');
   const xcodeProject = findXcodeProject(fs.readdirSync('.'));
   if (!xcodeProject) {
-    throw new Error(`Could not find Xcode project files in ios folder`);
+    process.chdir('ios');
+    const xcodeProject = findXcodeProject(fs.readdirSync('.'));
+    if (!xcodeProject) {
+      throw new Error(`Could not find Xcode project files in ios folder`);
+    }
   }
 
   const inferredSchemeName = path.basename(xcodeProject.name, path.extname(xcodeProject.name));
